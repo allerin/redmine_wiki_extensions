@@ -1,7 +1,7 @@
 require 'mailer'
 
 class WikiExtensionsCommentsMailer < Mailer
-  def wiki_commented(comment, wiki_page)
+  def wiki_commented(comment, wiki_page, event)
     project = wiki_page.project
     author = comment.user
     text = comment.comment
@@ -12,11 +12,12 @@ class WikiExtensionsCommentsMailer < Mailer
     # Send notification to watchers of wiki page
     recipients = wiki_page.watchers.collect { |watcher| watcher.user.mail }
 
-    subject = "[#{project.name} - Wiki - #{wiki_page.title}] commented"
+    subject = "[#{project.name} - Wiki - #{wiki_page.title}] comment #{event}"
 
     @project = project
     @author = author
     @text = text
+    @event = event
     @wiki_page_title = wiki_page.title
     @wiki_page_url = url_for(:controller => 'wiki', :action => 'show', :project_id => project, :id => wiki_page.title)
 

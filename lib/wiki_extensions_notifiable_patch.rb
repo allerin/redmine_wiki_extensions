@@ -1,6 +1,6 @@
 module WikiExtensionsNotifiablePatch
   def self.included(base) # :nodoc:
-    @is_wrap = false 
+    @is_wrap = false
     base.extend NotifiableMethods
     base.class_eval do
       unloadable
@@ -18,6 +18,8 @@ module NotifiableMethods
   def all_with_wiki_comments
     notifications = all_without_wiki_comments
     notifications << Redmine::Notifiable.new('wiki_comment_added')
+    notifications << Redmine::Notifiable.new('wiki_comment_modified')
+    notifications << Redmine::Notifiable.new('wiki_comment_deleted')
     notifications
   end
 end

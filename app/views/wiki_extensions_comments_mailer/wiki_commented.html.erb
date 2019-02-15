@@ -1,18 +1,19 @@
-<%= 
-l(:wiki_page_commented_header, :project_name => @project.name, :page_title => @wiki_page_title, :author => @author)
+<%=
+l(:wiki_page_commented_header, :project_name => @project.name, :page_title => @wiki_page_title, :author => @author, :event => l("label_#{@event}"))
 %>
 <hr />
 <%=
 l(:wiki_page_commented_comment_head)
 %>
 <br /><br />
-<%=
-@text
-%>
-<hr />
-<%=
-l(:wiki_page_commented_url)
-%>
-<br />
-<%= link_to(h(@wiki_page_url),  @wiki_page_url)
--%>
+<%= Redmine::WikiFormatting.to_html(Setting.text_formatting, @text).html_safe %>
+
+<%- unless @event == :deleted %>
+  <hr />
+  <%=
+  l(:wiki_page_commented_url)
+  %>
+  <br />
+  <%= link_to(h(@wiki_page_url),  @wiki_page_url)
+  -%>
+<% end %>
